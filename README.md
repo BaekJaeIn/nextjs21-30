@@ -20,6 +20,8 @@
 
 23. **(Pretty deep dive) Next.js 소개** (23-nextjs-basics, 24-nextjs-foodies, 25-nextjs-page-router, 26-nextjs-bigger-project)
 
+24. **리액트 앱에 애니메이션 넣기** (27-react-animation, 28-framer-motion)
+
 ---
 
 ### 배포
@@ -35,6 +37,10 @@
 - [25-nextjs-page-router](https://25-nextjs-page-router.vercel.app/)
 
 - [26-nextjs-bigger-project](https://26-nextjs-bigger-project.vercel.app/)
+
+- [27-react-animation](https://27-react-animation.vercel.app/)
+
+- [28-framer-motion](https://28-framer-motion.vercel.app/)
 
 ---
 
