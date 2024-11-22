@@ -24,6 +24,8 @@
 
 25. **React 패턴 및 모범 사례** (29-patterns)
 
+26. **리덕스를 리액트 훅으로 바꾸기** (30-replace-redux)
+
 ---
 
 ### 배포
@@ -46,11 +48,13 @@
 
 - [29-patterns](https://29-patterns.vercel.app/)
 
+- [30-replace-redux](https://30-replace-redux.vercel.app/)
+
 ---
 
 ### etc
 
-- 21-deploying-react-apps-updated
+- 21-deploying-react-apps-updated, 30-replace-redux
 
   - `npm run dev`대신 `npm start`로 로컬 실행
 
