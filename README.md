@@ -22,6 +22,8 @@
 
 24. **리액트 앱에 애니메이션 넣기** (27-react-animation, 28-framer-motion)
 
+25. **React 패턴 및 모범 사례** (29-patterns)
+
 ---
 
 ### 배포
@@ -41,6 +43,8 @@
 - [27-react-animation](https://27-react-animation.vercel.app/)
 
 - [28-framer-motion](https://28-framer-motion.vercel.app/)
+
+- [29-patterns](https://29-patterns.vercel.app/)
 
 ---
 
