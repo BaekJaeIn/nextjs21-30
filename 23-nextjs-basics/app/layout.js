@@ -1,8 +1,11 @@
-import './globals.css'
+import "./globals.css";
 
 export const metadata = {
-  title: 'NextJS Course App',
-  description: 'Your first NextJS app!',
+  title: "23-nextjs-basics",
+  description: "Your first NextJS app!",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
