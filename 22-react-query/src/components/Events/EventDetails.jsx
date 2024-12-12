@@ -1,7 +1,12 @@
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Header from "../Header.jsx";
-import { fetchEvent, deleteEvent, queryClient } from "../../util/http.js";
+import {
+  fetchEvent,
+  updateEvent,
+  queryClient,
+  fetchEvents,
+} from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 import { useState } from "react";
 import Modal from "../UI/Modal.jsx";
@@ -11,6 +16,11 @@ export default function EventDetails() {
 
   const params = useParams();
   const naviagte = useNavigate();
+
+  const { data: allData } = useQuery({
+    queryKey: ["events"],
+    queryFn: ({ signal }) => fetchEvents({ signal }),
+  });
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events", params.id],
@@ -23,7 +33,7 @@ export default function EventDetails() {
     isError: isErrorDeleting,
     error: deleteError,
   } = useMutation({
-    mutationFn: deleteEvent,
+    mutationFn: updateEvent,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["events"],
@@ -41,8 +51,9 @@ export default function EventDetails() {
     setIsDeleting(false);
   }
 
-  function handleDelete() {
-    mutate({ id: params.id });
+  function handleDelete(id) {
+    const filteredData = allData.filter((data) => data.id != id);
+    mutate(filteredData);
   }
 
   let content;
@@ -86,10 +97,7 @@ export default function EventDetails() {
           </nav>
         </header>
         <div id="event-details-content">
-          <img
-            src={`http://localhost:3000/${data.image}`}
-            alt={data.title || ""}
-          />
+          <img src={`/public/${data.image}`} alt="" />
           <div id="event-details-info">
             <div>
               <p id="event-details-location">{data.location}</p>
@@ -121,7 +129,10 @@ export default function EventDetails() {
                 <button onClick={handleStopDelete} className="button-text">
                   Cancel
                 </button>
-                <button onClick={handleDelete} className="button">
+                <button
+                  onClick={() => handleDelete(params.id)}
+                  className="button"
+                >
                   Delete
                 </button>
               </>

@@ -10,7 +10,13 @@ import { useQuery } from "@tanstack/react-query";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
-import { fetchEvent, updateEvent, queryClient } from "../../util/http.js";
+import {
+  fetchEvent,
+  fetchAllEvents,
+  queryClient,
+  fetchEvents,
+  updateEvent,
+} from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 export default function EditEvent() {
@@ -25,25 +31,10 @@ export default function EditEvent() {
     staleTime: 10000,
   });
 
-  // const { mutate } = useMutation({
-  //   mutationFn: updateEvent,
-  //   onMutate: async (data) => {
-  //     const newEvent = data.event;
-
-  //     await queryClient.cancelQueries({ queryKey: ["events", params.id] });
-  //     const previousEvent = queryClient.getQueryData(["events", params.id]);
-
-  //     queryClient.setQueryData(["events", params.id], newEvent);
-
-  //     return { previousEvent };
-  //   },
-  //   onError: (error, data, context) => {
-  //     queryClient.setQueryData(["events", params.id], context.previousEvent);
-  //   },
-  //   onSettled: () => {
-  //     queryClient.invalidateQueries(["events", params.id]);
-  //   },
-  // });
+  const { data: allData } = useQuery({
+    queryKey: ["events"],
+    queryFn: ({ signal }) => fetchEvents({ signal }),
+  });
 
   function handleSubmit(formData) {
     submit(formData, { method: "PUT" });
@@ -104,9 +95,15 @@ export function loader({ params }) {
 }
 
 export async function action({ request, params }) {
+  const allData = await fetchAllEvents();
   const formData = await request.formData();
   const updatedEventData = Object.fromEntries(formData);
-  await updateEvent({ id: params.id, event: updatedEventData });
+  allData.map((data) => {
+    if (data.id === params.id) {
+      data = Object.assign(data, updatedEventData);
+    }
+  });
+  await updateEvent(allData);
   await queryClient.invalidateQueries(["events"]);
   return redirect("../");
 }
